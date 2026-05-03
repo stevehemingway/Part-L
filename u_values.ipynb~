@@ -18,7 +18,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 32,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [
     {
@@ -40,9 +40,7 @@
     "import pint\n",
     "\n",
     "ureg = pint.UnitRegistry()\n",
-    "# ureg.define('gbp = []')  # Define GBP as a dimensionless currency unit\n",
-    "ureg.define('gbp = [currency]') \n",
-    "ureg.gbp.symbol = '£'\n"
+    "ureg.define('£ = []')  # Define GBP as a dimensionless currency unit"
    ]
   },
   {
@@ -56,7 +54,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -88,7 +86,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -117,7 +115,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 35,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -126,7 +124,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
@@ -141,7 +139,7 @@
        "<Quantity(0.04, 'watt / meter / kelvin')>"
       ]
      },
-     "execution_count": 36,
+     "execution_count": 6,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -159,7 +157,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -183,7 +181,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [
     {
@@ -231,7 +229,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 59,
+   "execution_count": 15,
    "metadata": {
     "scrolled": true
    },
@@ -240,62 +238,28 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "degree days 7.10×10¹⁰ K·s\n",
-      "gas price 1.08×10⁻¹ gbp·s/W\n",
-      "gas price: 3.000×10⁻⁸ gbp·s⁴/kg/m²\n",
+      "gas price 0.03 £/h/kW\n",
       "Change in U-value from EWI: 15.9040 W/K/m²\n",
       "Energy transfer per m² per degree per day: 15.903986 W/K/m²\n",
-      "Annual cost saving per m²: 2925028529.48 gbp·s³/m²\n"
+      "Daily saving per m² per degree day: 0.011451 £²/h/K/kW/m²\n",
+      "Annual cost saving per m²: 25.76 £²/h/kW/m²\n"
      ]
     }
    ],
    "source": [
     "# Constants\n",
-    "\n",
-    "degree_days = 2250 * ureg.kelvin * 60*60*24*365 * ureg.s  # Assumed for Knebworth (base 15°C)\n",
-    "print(f\"degree days {degree_days:.2eP~}\")\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 67,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "gas price per bill 8.33×10⁻⁹ gbp/s/W\n"
-     ]
-    }
-   ],
-   "source": [
+    "degree_days = 2250 * ureg.kelvin  # Assumed for Knebworth (base 15°C)\n",
     "# gas price, as quoted on your gas bill:\n",
-    "gas_price = 0.03*ureg.gbp / ((1000 * ureg.W) * (60*60*ureg.s))   # gbp/kWh (2021 pre-crisis price)\n",
-    "print(f\"gas price per bill {gas_price_bill:.2eP~}\")\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 70,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Change in U-value from EWI: 15.9040 W/K/m²\n",
-      "Energy transfer per m² per degree per day: 15.903986 W/K/m²\n"
-     ]
-    }
-   ],
-   "source": [
-    "# Work out annual cost\n",
-    "\n",
+    "gas_price_bill = 0.03 * ureg.£ / (ureg.kW * ureg.hour)   # £/kWh (2021 pre-crisis price)\n",
     "# base temperate should be about 15C.\n",
     "# degree days should be about 2500-600 (if base temp is 15C).\n",
+    "\n",
+    "print(f\"gas price {gas_price_bill:.2fP~}\")\n",
+    "\n",
+    "# Convert gas price to £/J, \n",
+    "gas_price = (\n",
+    "    gas_price_bill / 1000 / (60 * 60) / (ureg.watt * ureg.second) * ureg.£\n",
+    ")\n",
     "\n",
     "day = 24 * 60 * 60 * ureg.seconds\n",
     "\n",
@@ -304,26 +268,10 @@
     "\n",
     "print(f\"Change in U-value from EWI: {delta_u:.4fP~}\")\n",
     "print(f\"Energy transfer per m² per degree per day: {delta_u:.6fP~}\")\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 68,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Annual cost saving per m²: 812507924.85 gbp·s/m²\n"
-     ]
-    }
-   ],
-   "source": [
-    "# Calculate unit savings\n",
-    "# daily_saving_psm = day * gas_price * delta_u \n",
-    "# print(f\"Daily saving per m² per degree day: {daily_saving_psm:.6fP~}\")\n",
+    "\n",
+    "# Calculate savings\n",
+    "daily_saving_psm = day * gas_price * delta_u \n",
+    "print(f\"Daily saving per m² per degree day: {daily_saving_psm:.6fP~}\")\n",
     "\n",
     "year_cost_psm = degree_days * day * gas_price * delta_u\n",
     "print(f\"Annual cost saving per m²: {year_cost_psm:.2fP~}\")"
@@ -338,27 +286,36 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 41,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Installation cost: 150 gbp/m²\n",
-      "Annual saving per m²: 25.76 gbp²/h/kW/m²\n",
-      "Simple payback period: 5.8 hour * kilowatt / gbp years\n"
+      "Installation cost: 150 £ / meter ** 2\n"
+     ]
+    },
+    {
+     "ename": "NameError",
+     "evalue": "name 'year_cost_psm' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[11], line 6\u001b[0m\n\u001b[1;32m      3\u001b[0m installation_cost \u001b[38;5;241m=\u001b[39m \u001b[38;5;241m150\u001b[39m \u001b[38;5;241m*\u001b[39m ureg\u001b[38;5;241m.\u001b[39mgbp \u001b[38;5;241m/\u001b[39m (ureg\u001b[38;5;241m.\u001b[39mmeter\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m2\u001b[39m)  \u001b[38;5;66;03m# £/m²\u001b[39;00m\n\u001b[1;32m      5\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mInstallation cost: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00minstallation_cost\u001b[38;5;132;01m:\u001b[39;00m\u001b[38;5;124m.0f\u001b[39m\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m)\n\u001b[0;32m----> 6\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mAnnual saving per m²: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00m\u001b[43myear_cost_psm\u001b[49m\u001b[38;5;132;01m:\u001b[39;00m\u001b[38;5;124m.2f\u001b[39m\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m)\n\u001b[1;32m      7\u001b[0m \u001b[38;5;28mprint\u001b[39m()\n\u001b[1;32m      9\u001b[0m simple_payback \u001b[38;5;241m=\u001b[39m installation_cost \u001b[38;5;241m/\u001b[39m year_cost_psm\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'year_cost_psm' is not defined"
      ]
     }
    ],
    "source": [
     "# Installation cost\n",
-    "# Based on non-binding verbal quote from TAW: gbp30K for front and side elevations (~150m²)\n",
-    "installation_cost = 150 * ureg.gbp / (ureg.meter**2)  # gbp/m²\n",
+    "# Based on non-binding verbal quote from TAW: £30K for front and side elevations (~150m²)\n",
+    "installation_cost = 150 * ureg.£ / (ureg.meter**2)  # £/m²\n",
     "\n",
-    "print(f\"Installation cost: {installation_cost:.0fP~}\")\n",
-    "print(f\"Annual saving per m²: {year_cost_psm:.2fP~}\")\n",
-    "\n",
+    "print(f\"Installation cost: {installation_cost:.0f}\")\n",
+    "print(f\"Annual saving per m²: {year_cost_psm:.2f}\")\n",
+    "print()\n",
     "\n",
     "simple_payback = installation_cost / year_cost_psm\n",
     "print(f\"Simple payback period: {simple_payback:.1f} years\")\n"
@@ -378,6 +335,27 @@
     "\n",
     "*Note: Payback period will be shorter with current higher gas prices.*"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
