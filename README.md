@@ -10,4 +10,4 @@ You need to read [Part L](https://www.gov.uk/government/publications/conservatio
 I have no qualifications in this area: I just wanted to understand my options as a client.
 
 I've loaded up this notebook in mybinder.org. You can access it as a runnable (and editable) notebook
-at [this url](https://hub.gesis.mybinder.org/user/stevehemingway-part-l-xlkxna77/doc/tree/u_values.ipynb).
+at [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/stevehemingway/Part-L/HEAD)
