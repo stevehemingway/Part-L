@@ -1,0 +1,7 @@
+*.orig
+*~
+*.aux
+*.log
+*.pdf
+*.out
+*.tex 
