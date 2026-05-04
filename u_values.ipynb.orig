@@ -22,12 +22,15 @@
    "metadata": {},
    "outputs": [],
    "source": [
+<<<<<<< HEAD
+=======
     "# %pip install pint\n",
     "# I used to use the above, which forces load of the pint library.\n",
     "# (you need this library, but better to install it via \n",
     "# `python -m ipykernel install --user --name=Part-L --display-name \"Part-L\"` \n",
     "# you need to have the right libraries installed in the active environment before doing the ipykernel install. \n",
     "# best to manage the environments using conda, in my limited experience.\n",
+>>>>>>> 01ccaba (got better degree days info.)
     "import pint\n",
     "\n",
     "ureg = pint.UnitRegistry()\n",
@@ -39,12 +42,16 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Material Properties: Thermal Conductivity (Lambda)\n"
+    "## Material Properties\n"
    ]
   },
   {
    "cell_type": "code",
+<<<<<<< HEAD
+   "execution_count": 13,
+=======
    "execution_count": 2,
+>>>>>>> 01ccaba (got better degree days info.)
    "metadata": {},
    "outputs": [],
    "source": [
@@ -62,26 +69,19 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Wall Construction Definition\n",
-    "\n",
-    "Thicknesses in meters"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## R and U from thickness and conductivity"
+    "## formulae for R and U"
    ]
   },
   {
    "cell_type": "code",
+<<<<<<< HEAD
+   "execution_count": 14,
+=======
    "execution_count": 3,
+>>>>>>> 01ccaba (got better degree days info.)
    "metadata": {},
    "outputs": [],
    "source": [
-    "\n",
-    "\n",
     "def lambda_val(material):\n",
     "    \"\"\"Get thermal conductivity with units.\"\"\"\n",
     "    return LAMBDA[material] * ureg.W / (ureg.m * ureg.kelvin) \n",
@@ -100,6 +100,10 @@
     "        R = R_value(i,wall[i] * ureg.meters)\n",
     "        tot_R += R\n",
     "    return 1./tot_R\n",
+<<<<<<< HEAD
+    "    \n",
+    "assert lambda_val('plaster') == 0.77 * ureg.W / ureg.m / ureg.K  # check "
+=======
     "    \n"
    ]
   },
@@ -136,13 +140,14 @@
    ],
    "source": [
     "lambda_val('xps')\n"
+>>>>>>> 01ccaba (got better degree days info.)
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Calculate Total R-Value and U-Value for Wall"
+    "## Get U values for wall with and without EWI/IWI"
    ]
   },
   {
@@ -159,7 +164,7 @@
     }
    ],
    "source": [
-    "\n",
+    "# use a dict type to represent the elements in the wall.\n",
     "u_with_EWI = U_value(\n",
     "    {\n",
     "    \"plasterboard\": 0.013,  # Internal plaster finish\n",
@@ -190,15 +195,14 @@
     "    \"brick\": 0.2200,  # Main structural brick layer\n",
     "    }) \n",
     "\n",
-    "print(f\"u_without_EWI: {u_without_EWI:.2fP~}\")\n",
-    "\n"
+    "print(f\"u_without_EWI: {u_without_EWI:.2fP~}\")"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## External Wall Insulation (EWI) Analysis"
+    "## Compute actual energy losses for wall before and after"
    ]
   },
   {
@@ -228,17 +232,28 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
+<<<<<<< HEAD
+      "degree days (in SI units!) 1.61×10⁸ K·s\n"
+=======
       "degree days (in SI units!) 1.74×10⁸ K·s\n"
+>>>>>>> 01ccaba (got better degree days info.)
      ]
     }
    ],
    "source": [
+<<<<<<< HEAD
+    "# Energy depends on integral of temperature shortfall over the year.\n",
+    "# this is HDD downloaded from https://www.degreedays.net/ for Luton Airport for a base \n",
+    "# of 15.5°C (traditional base temp)\n",
+    "degree_days = 2009.3 * ureg.K * 60*60*24 * ureg.s  \n",
+=======
     "# Constants\n",
     "\n",
     "# nominal degree days from degreedays.net for Luton Airport, average over five years, base temp 15.5°C\n",
     "nom_degree_days = 2009.3\n",
     "\n",
     "degree_days = nom_degree_days * ureg.K * 60*60*24 * ureg.s  # Assumed for Knebworth (base 15°C)\n",
+>>>>>>> 01ccaba (got better degree days info.)
     "print(f\"degree days (in SI units!) {degree_days:.2eP~}\")"
    ]
   },
@@ -288,27 +303,40 @@
   },
   {
    "cell_type": "code",
+<<<<<<< HEAD
+   "execution_count": 20,
+=======
    "execution_count": 18,
+>>>>>>> 01ccaba (got better degree days info.)
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
+<<<<<<< HEAD
+      "Unit saving (i.e. per second): 2.219887×10⁻⁸ gbp/K/m²/s\n",
+      "saving per day: 1.92×10⁻³ gbp/K/m²\n",
+      "Annual cost saving: 3.58 gbp/m²\n"
+=======
       "saving: 2.219887×10⁻⁸ gbp/K/m²/s\n",
       "saving pd: 1.92×10⁻³ gbp/K/m²\n",
       "Annual cost saving: 3.85 gbp/m²\n"
+>>>>>>> 01ccaba (got better degree days info.)
      ]
     }
    ],
    "source": [
     "# Calculate unit savings \n",
     "saving = gas_price * delta_u # per unit time\n",
+<<<<<<< HEAD
+    "print(f\"Unit saving (i.e. per second): {saving:.6eP~}\")\n",
+=======
     "\n",
     "print(f\"saving: {saving:.6eP~}\")\n",
+>>>>>>> 01ccaba (got better degree days info.)
     "saving_pd = saving*60*60*24*ureg.s\n",
-    "print(f\"saving pd: {saving_pd:.2eP~}\")\n",
-    "# print(f\"saving on a 15K temp delta: {saving_pd*15*ureg.K}\")\n",
+    "print(f\"saving per day: {saving_pd:.2eP~}\")\n",
     "\n",
     "year_cost_psm = degree_days  * gas_price * delta_u\n",
     "\n",
@@ -324,7 +352,11 @@
   },
   {
    "cell_type": "code",
+<<<<<<< HEAD
+   "execution_count": 22,
+=======
    "execution_count": 20,
+>>>>>>> 01ccaba (got better degree days info.)
    "metadata": {},
    "outputs": [
     {
@@ -332,9 +364,14 @@
      "output_type": "stream",
      "text": [
       "Installation cost: 200 gbp/m²\n",
+<<<<<<< HEAD
+      "Annual saving per m²: 3.58 gbp/m²\n",
+      "Simple payback period: 55.8 dimensionless years\n"
+=======
       "Payback period: 5.19×10¹\n",
       "Annual saving per m²: 3.85 gbp/m²\n",
       "Simple payback (years): 51.9 dimensionless\n"
+>>>>>>> 01ccaba (got better degree days info.)
      ]
     }
    ],
@@ -350,8 +387,6 @@
     "simple_payback = installation_cost / year_cost_psm\n",
     "print(f\"Simple payback (years): {simple_payback:.1f}\")\n"
    ]
-<<<<<<< HEAD
-=======
   },
   {
    "cell_type": "code",
@@ -359,6 +394,8 @@
    "metadata": {},
    "outputs": [],
    "source": []
+<<<<<<< HEAD
+=======
   },
   {
    "cell_type": "code",

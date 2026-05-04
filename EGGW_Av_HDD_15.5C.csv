@@ -1,0 +1,20 @@
+Description:,"Celsius-based 5-year-average (2021 to 2025) heating degree days with a base temperature of 15.5 C"
+Source:,"www.degreedays.net"
+Accuracy:,"No problems detected"
+Station:,"Luton Airport (0.37W,51.87N)"
+Station ID:,EGGW
+
+,HDD 15.5
+Jan,357.5
+Feb,274.1
+Mar,257.7
+Apr,209.6
+May,114.1
+Jun,46.9
+Jul,19.6
+Aug,22.2
+Sep,56.4
+Oct,119.4
+Nov,236.2
+Dec,295.6
+Total,2009.3
